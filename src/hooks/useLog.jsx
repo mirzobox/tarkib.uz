@@ -26,6 +26,9 @@ export default function useLog() {
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
         navigate("/");
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       })
       .catch(({ message }) => {
         toast.error(message);
@@ -53,6 +56,9 @@ export default function useLog() {
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
         navigate("/");
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       })
       .catch(() => {
         toast.error("Bunday foydalanuvchi allaqachon ro'yhatdan o'tgan");
@@ -76,6 +82,9 @@ export default function useLog() {
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
         navigate("/");
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       })
       .catch(() => {
         toast.error("Maxfiy so'z yoki email xato, qayta urunib ko'ring");
