@@ -6,7 +6,11 @@ export default withMT({
     fontFamily: {
       roboto: ["Roboto", "Arial", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        log: "url('/public/log.png')",
+      },
+    },
   },
   plugins: [],
 });

@@ -4,67 +4,89 @@ import {
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
-import { auth, googleProvider } from "../firebase/firebaseConfig";
+import { auth, googleProvider } from "../firebase/firebase.config.js";
 import { useDispatch } from "react-redux";
-export function useLogin() {
+import { toast } from "sonner";
+import {
+  setAuthReady,
+  setPending,
+  setUser,
+} from "../redux/slices/user-slice.js";
+import { useNavigate } from "react-router-dom";
+export default function useLog() {
   const dispatch = useDispatch();
   function loginWithGoogleProvider() {
-    // dispatch({ type: "IS_PENDING", payload: true });
+    dispatch(setPending(true));
+    dispatch(setAuthReady(false));
     signInWithPopup(auth, googleProvider)
       .then(({ user }) => {
         toast.success(`Xush kelibsiz ${user.displayName} !`);
-        // dispatch({ type: "LOGIN", payload: user });
-        // dispatch({ type: "IS_PENDING", payload: false });
-        // dispatch({ type: "ERROR", payload: null });
+        dispatch(setUser(user));
+        dispatch(setPending(false));
+        dispatch(setAuthReady(true));
       })
       .catch(({ message }) => {
         toast.error(message);
-        // dispatch({ type: "IS_PENDING", payload: true });
-        // dispatch({ type: "ERROR", payload: errorMessage });
+        dispatch(setPending(true));
+        dispatch(setAuthReady(false));
+        // Reload page
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       });
   }
   // Signin
-  function loginWithDisplayNameAndEmailAndPassword({
+  function signWithDisplayNameAndEmailAndPassword({
     displayName,
     email,
     password,
-    photoURL,
   }) {
-    // dispatch({ type: "IS_PENDING", payload: true });
+    dispatch(setPending(true));
+    dispatch(setAuthReady(false));
     createUserWithEmailAndPassword(auth, email, password)
       .then(async ({ user }) => {
-        await updateProfile(auth.currentUser, { displayName, photoURL });
-        toast.success(`Welcome ${user.displayName} !`);
-        // dispatch({ type: "LOGIN", payload: user });
-        // dispatch({ type: "ERROR", error: null });
-        // dispatch({ type: "IS_PENDING", payload: false });
+        await updateProfile(auth.currentUser, { displayName });
+        toast.success(`Xush kelibsiz ${user.displayName} !`);
+        dispatch(setUser(user));
+        dispatch(setPending(false));
+        dispatch(setAuthReady(true));
       })
-      .catch(({ message }) => {
-        toast.error(message);
-        dispatch({ type: "ERROR", error: message });
-        dispatch({ type: "IS_PENDING", payload: false });
+      .catch(() => {
+        toast.error("Bunday foydalanuvchi allaqachon ro'yhatdan o'tgan");
+        dispatch(setPending(true));
+        dispatch(setAuthReady(false));
+        // Reload page
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       });
   }
   // Login
   function loginWithEmailAndPassword({ email, password }) {
-    // dispatch({ type: "IS_PENDING", payload: true });
+    dispatch(setPending(true));
+    dispatch(setAuthReady(false));
+
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        toast.success("Welcome come back )");
-        // dispatch({ type: "LOGIN", payload: user });
-        // dispatch({ type: "ERROR", error: null });
-        // dispatch({ type: "IS_PENDING", payload: false });
+        toast.success(`Xush kelibsiz ${user.displayName}`);
+        dispatch(setUser(user));
+        dispatch(setPending(false));
+        dispatch(setAuthReady(true));
       })
-      .catch(({ message }) => {
-        toast.error(message);
-        // dispatch({ type: "ERROR", error: message });
-        // dispatch({ type: "IS_PENDING", payload: false });
+      .catch(() => {
+        toast.error("Maxfiy so'z yoki email xato, qayta urunib ko'ring");
+        dispatch(setPending(true));
+        dispatch(setAuthReady(false));
+        // Reload page
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       });
   }
 
   return {
     loginWithGoogleProvider,
-    loginWithDisplayNameAndEmailAndPassword,
+    signWithDisplayNameAndEmailAndPassword,
     loginWithEmailAndPassword,
   };
 }
