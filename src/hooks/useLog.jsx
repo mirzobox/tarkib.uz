@@ -14,6 +14,7 @@ import {
 } from "../redux/slices/user-slice.js";
 import { useNavigate } from "react-router-dom";
 export default function useLog() {
+  const timeout = 1000;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   function loginWithGoogleProvider() {
@@ -25,10 +26,9 @@ export default function useLog() {
         dispatch(setUser(user));
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
-        navigate("/");
         setTimeout(() => {
-          location.reload();
-        }, 2000);
+          location.pathname = "/";
+        }, timeout);
       })
       .catch(({ message }) => {
         toast.error(message);
@@ -37,7 +37,7 @@ export default function useLog() {
         // Reload page
         setTimeout(() => {
           location.reload();
-        }, 2000);
+        }, timeout);
       });
   }
   // Signin
@@ -55,10 +55,9 @@ export default function useLog() {
         dispatch(setUser(user));
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
-        navigate("/");
         setTimeout(() => {
-          location.reload();
-        }, 2000);
+          location.pathname = "/";
+        }, timeout);
       })
       .catch(() => {
         toast.error("Bunday foydalanuvchi allaqachon ro'yhatdan o'tgan");
@@ -67,7 +66,7 @@ export default function useLog() {
         // Reload page
         setTimeout(() => {
           location.reload();
-        }, 2000);
+        }, timeout);
       });
   }
   // Login
@@ -81,10 +80,9 @@ export default function useLog() {
         dispatch(setUser(user));
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
-        navigate("/");
         setTimeout(() => {
-          location.reload();
-        }, 2000);
+          location.pathname = "/";
+        }, timeout);
       })
       .catch(() => {
         toast.error("Maxfiy so'z yoki email xato, qayta urunib ko'ring");
@@ -93,7 +91,7 @@ export default function useLog() {
         // Reload page
         setTimeout(() => {
           location.reload();
-        }, 2000);
+        }, timeout);
       });
   }
 
