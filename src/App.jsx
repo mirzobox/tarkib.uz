@@ -3,7 +3,6 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import ProtectedRoutes from "./components/ProtectedRoutes";
 import RootLayouts from "./layouts/RootLayouts";
 import Login from "./page/Login";
 import Register from "./page/Register";
@@ -36,7 +35,11 @@ export default function App() {
         },
         {
           path: "/my-recipes",
-          element: <MyRecipes />,
+          element: user ? <MyRecipes /> : <Navigate to="/" />,
+        },
+        {
+          path: "/create-recipes",
+          element: user ? <CreateRecipes /> : <Navigate to="/" />,
         },
       ],
     },
@@ -48,10 +51,6 @@ export default function App() {
       path: "/register",
       element: <Register />,
     },
-    {
-      path: "/create",
-      element: user ? <CreateRecipes /> : <Navigate to="/" />,
-    },
   ]);
 
   useEffect(() => {
@@ -60,5 +59,5 @@ export default function App() {
       dispatch(setAuthReady(true));
     });
   }, [user]);
-  return <RouterProvider router={routes} />;
+  return isAuthReady && <RouterProvider router={routes} />;
 }

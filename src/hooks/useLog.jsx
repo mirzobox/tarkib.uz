@@ -14,6 +14,7 @@ import {
 } from "../redux/slices/user-slice.js";
 import { useNavigate } from "react-router-dom";
 export default function useLog() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   function loginWithGoogleProvider() {
     dispatch(setPending(true));
@@ -24,6 +25,7 @@ export default function useLog() {
         dispatch(setUser(user));
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
+        navigate("/");
       })
       .catch(({ message }) => {
         toast.error(message);
@@ -50,6 +52,7 @@ export default function useLog() {
         dispatch(setUser(user));
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
+        navigate("/");
       })
       .catch(() => {
         toast.error("Bunday foydalanuvchi allaqachon ro'yhatdan o'tgan");
@@ -72,6 +75,7 @@ export default function useLog() {
         dispatch(setUser(user));
         dispatch(setPending(false));
         dispatch(setAuthReady(true));
+        navigate("/");
       })
       .catch(() => {
         toast.error("Maxfiy so'z yoki email xato, qayta urunib ko'ring");

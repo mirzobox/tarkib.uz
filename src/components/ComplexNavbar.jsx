@@ -8,7 +8,6 @@ import {
   MenuList,
   MenuItem,
   Avatar,
-  Card,
   IconButton,
   Collapse,
 } from "@material-tailwind/react";
@@ -16,7 +15,6 @@ import {
   Square3Stack3DIcon,
   ChevronDownIcon,
   PowerIcon,
-  RocketLaunchIcon,
   Bars2Icon,
   PlusCircleIcon,
 } from "@heroicons/react/24/solid";
@@ -24,7 +22,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // profile menu component
 const profileMenuItems = [
@@ -47,24 +45,37 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { user } = useSelector((state) => state.userSlice);
   const closeMenu = () => setIsMenuOpen(false);
+  const navigate = useNavigate();
+
+  function handleRecipes() {
+    if (user) {
+      navigate("/create-recipes");
+    } else {
+      const confirmation = confirm(
+        "Retsept qo'shish uchun saytdan ro'yhatdan o'tish kerak. Ro'yhatdan o'tasizmi ?",
+      );
+      if (confirmation) {
+        navigate("/login");
+      }
+    }
+  }
 
   return (
     <div className="flex items-center gap-5">
-      {navListItems.map(({ label, icon, href }) => (
-        <Typography
-          key={label}
-          as="a"
-          href={href}
-          variant="small"
-          color="gray"
-          className="font-medium text-blue-gray-500"
-        >
-          <MenuItem className="flex items-center gap-2 lg:rounded-full">
-            {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
-            <span className="text-gray-900">{label}</span>
-          </MenuItem>
-        </Typography>
-      ))}
+      <Typography
+        className="font-medium text-blue-gray-500"
+        as="span"
+        variant="small"
+        color="gray"
+        onClick={handleRecipes}
+      >
+        <MenuItem className="flex items-center gap-2 lg:rounded-full">
+          {React.createElement(PlusCircleIcon, {
+            className: "h-[18px] w-[18px]",
+          })}{" "}
+          <span className="text-gray-900">Retsept yaratish</span>
+        </MenuItem>
+      </Typography>
       {user && (
         <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
           <MenuHandler>
@@ -199,15 +210,6 @@ function NavListMenu() {
     </React.Fragment>
   );
 }
-
-// nav list component
-const navListItems = [
-  {
-    label: "Retsept yaratish",
-    icon: PlusCircleIcon,
-    href: "/create",
-  },
-];
 
 function NavList() {
   return (
