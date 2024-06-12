@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Navbar,
-  MobileNav,
   Typography,
   Button,
   Menu,
@@ -25,6 +24,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 // profile menu component
 const profileMenuItems = [
@@ -49,65 +49,84 @@ function ProfileMenu() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <MenuHandler>
-        <Button
-          variant="text"
-          color="blue-gray"
-          className="flex items-center gap-1 rounded-full py-0.5 pl-0.5 pr-2 lg:ml-auto"
+    <div className="flex items-center gap-5">
+      {navListItems.map(({ label, icon, href }) => (
+        <Typography
+          key={label}
+          as="a"
+          href={href}
+          variant="small"
+          color="gray"
+          className="font-medium text-blue-gray-500"
         >
-          <Avatar
-            variant="circular"
-            size="sm"
-            alt={user.displaName}
-            className="border border-gray-900 p-0.5"
-            src={
-              user?.photoURL
-                ? user.photoURL
-                : "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
-            }
-          />
-          <ChevronDownIcon
-            strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${
-              isMenuOpen ? "rotate-180" : ""
-            }`}
-          />
-        </Button>
-      </MenuHandler>
-      <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon, action }, key) => {
-          const isLastItem = key === profileMenuItems.length - 1;
-          return (
-            <MenuItem
-              key={label}
-              onClick={() => {
-                action();
-                closeMenu();
-              }}
-              className={`flex items-center gap-2 rounded ${
-                isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
-              }`}
+          <MenuItem className="flex items-center gap-2 lg:rounded-full">
+            {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
+            <span className="text-gray-900">{label}</span>
+          </MenuItem>
+        </Typography>
+      ))}
+      {user && (
+        <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+          <MenuHandler>
+            <Button
+              variant="text"
+              color="blue-gray"
+              className="flex items-center gap-1 rounded-full py-0.5 pl-0.5 pr-2"
             >
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
-              >
-                {label}
-              </Typography>
-            </MenuItem>
-          );
-        })}
-      </MenuList>
-    </Menu>
+              <Avatar
+                variant="circular"
+                size="sm"
+                alt={user.displaName}
+                className="border border-gray-900 p-0.5"
+                src={
+                  user?.photoURL
+                    ? user.photoURL
+                    : "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+                }
+              />
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`h-3 w-3 transition-transform ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </Button>
+          </MenuHandler>
+          <MenuList className="p-1">
+            {profileMenuItems.map(({ label, icon, action }, key) => {
+              const isLastItem = key === profileMenuItems.length - 1;
+              return (
+                <MenuItem
+                  key={label}
+                  onClick={() => {
+                    action();
+                    closeMenu();
+                  }}
+                  className={`flex items-center gap-2 rounded ${
+                    isLastItem
+                      ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                      : ""
+                  }`}
+                >
+                  {React.createElement(icon, {
+                    className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                    strokeWidth: 2,
+                  })}
+                  <Typography
+                    as="span"
+                    variant="small"
+                    className="font-normal"
+                    color={isLastItem ? "red" : "inherit"}
+                  >
+                    {label}
+                  </Typography>
+                </MenuItem>
+              );
+            })}
+          </MenuList>
+        </Menu>
+      )}
+    </div>
   );
 }
 
@@ -116,22 +135,25 @@ const navListMenuItems = [
   {
     title: "Bosh sahifa",
     description: `"Tarkib.uz"da mavjuda barcha retseptlar`,
+    href: "/",
   },
   {
     title: "Statiska",
     description: "Taomlar va retseptlar statiskasi",
+    href: "/statistics",
   },
   {
     title: "Mening retseptlarim",
     description: "Siz tanlagan va sizga yoqqan barcha retseptlar",
+    href: "/my-recipes",
   },
 ];
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const renderItems = navListMenuItems.map(({ title, description }) => (
-    <a href="#" key={title}>
+  const renderItems = navListMenuItems.map(({ title, description, href }) => (
+    <NavLink to={href} key={title}>
       <MenuItem>
         <Typography variant="h6" color="blue-gray" className="mb-1">
           {title}
@@ -140,14 +162,14 @@ function NavListMenu() {
           {description}
         </Typography>
       </MenuItem>
-    </a>
+    </NavLink>
   ));
 
   return (
     <React.Fragment>
       <Menu allowHover open={isMenuOpen} handler={setIsMenuOpen}>
         <MenuHandler>
-          <Typography as="a" href="#" variant="small" className="font-normal">
+          <Typography as="span" variant="small" className="font-normal">
             <MenuItem className="hidden items-center gap-2 font-medium text-blue-gray-900 lg:flex lg:rounded-full">
               <Square3Stack3DIcon className="h-[18px] w-[18px] text-blue-gray-500" />{" "}
               Sahifalar{" "}
@@ -160,27 +182,20 @@ function NavListMenu() {
             </MenuItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid">
-          <Card
-            color="blue"
-            shadow={false}
-            variant="gradient"
-            className="col-span-3 grid h-full w-full place-items-center rounded-md"
-          >
-            <RocketLaunchIcon strokeWidth={1} className="h-28 w-28" />
-          </Card>
-          <ul className="col-span-4 flex w-full flex-col gap-1">
-            {renderItems}
-          </ul>
+        <MenuList className="hidden w-[36rem] gap-3 overflow-hidden lg:flex">
+          <img
+            className="w-72 object-cover"
+            src="https://media.istockphoto.com/id/513234288/vector/vector-vintage-salmon-drawing-hand-drawn-monochrome-seafood-ill.jpg?s=612x612&w=0&k=20&c=efNfkkQRR0Y5hyxFugHctQwzAmeZH22Sw-8O0_BW_Pw="
+            alt="Baliq rasmi"
+          />
+          <ul className="flex w-full flex-col gap-1">{renderItems}</ul>
         </MenuList>
       </Menu>
       <MenuItem className="flex items-center gap-2 font-medium text-blue-gray-900 lg:hidden">
         <Square3Stack3DIcon className="h-[18px] w-[18px] text-blue-gray-500" />{" "}
         Pages{" "}
       </MenuItem>
-      <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
-        {renderItems}
-      </ul>
+      <ul className="flex w-full flex-col gap-1 lg:hidden">{renderItems}</ul>
     </React.Fragment>
   );
 }
@@ -190,6 +205,7 @@ const navListItems = [
   {
     label: "Retsept yaratish",
     icon: PlusCircleIcon,
+    href: "/create",
   },
 ];
 
@@ -197,21 +213,6 @@ function NavList() {
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <NavListMenu />
-      {navListItems.map(({ label, icon }, key) => (
-        <Typography
-          key={label}
-          as="a"
-          href="#"
-          variant="small"
-          color="gray"
-          className="font-medium text-blue-gray-500"
-        >
-          <MenuItem className="flex items-center gap-2 lg:rounded-full">
-            {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
-            <span className="text-gray-900">{label}</span>
-          </MenuItem>
-        </Typography>
-      ))}
     </ul>
   );
 }

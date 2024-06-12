@@ -13,6 +13,9 @@ import { useEffect } from "react";
 import { setAuthReady, setUser } from "./redux/slices/user-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase.config";
+import CreateRecipes from "./page/CreateRecipes";
+import MyRecipes from "./page/MyRecipes";
+import Statistics from "./page/Statistics";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -20,26 +23,34 @@ export default function App() {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: (
-        <ProtectedRoutes user={user}>
-          <RootLayouts />
-        </ProtectedRoutes>
-      ),
+      element: <RootLayouts />,
       children: [
         {
           index: true,
           path: "/",
           element: <Home />,
         },
+        {
+          path: "/statistics",
+          element: <Statistics />,
+        },
+        {
+          path: "/my-recipes",
+          element: <MyRecipes />,
+        },
       ],
     },
     {
       path: "/login",
-      element: user ? <Navigate to="/" /> : <Login />,
+      element: <Login />,
     },
     {
       path: "/register",
-      element: user ? <Navigate to="/" /> : <Register />,
+      element: <Register />,
+    },
+    {
+      path: "/create",
+      element: user ? <CreateRecipes /> : <Navigate to="/" />,
     },
   ]);
 
@@ -49,5 +60,5 @@ export default function App() {
       dispatch(setAuthReady(true));
     });
   }, [user]);
-  return isAuthReady && <RouterProvider router={routes} />;
+  return <RouterProvider router={routes} />;
 }
