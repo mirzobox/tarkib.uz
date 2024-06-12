@@ -1,11 +1,15 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import RootLayouts from "./layouts/RootLayouts";
 import Login from "./page/Login";
 import Register from "./page/Register";
 
 export default function App() {
-  const user = null;
+  const user = true;
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -18,11 +22,11 @@ export default function App() {
     },
     {
       path: "/login",
-      element: user ? <Login /> : "/login",
+      element: user ? <Login /> : <Navigate to="/login" />,
     },
     {
       path: "/register",
-      element: user ? <Register /> : "/login",
+      element: user ? <Register /> : <Navigate to="/login" />,
     },
   ]);
   return <RouterProvider router={routes} />;
