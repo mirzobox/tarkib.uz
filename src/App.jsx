@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import RootLayouts from "./layouts/RootLayouts";
 import Login from "./page/Login";
+import Register from "./page/Register";
 
 export default function App() {
   const user = null;
@@ -17,7 +18,11 @@ export default function App() {
     },
     {
       path: "/login",
-      element: <Login />,
+      element: user ? <Login /> : "/login",
+    },
+    {
+      path: "/register",
+      element: user ? <Register /> : "/login",
     },
   ]);
   return <RouterProvider router={routes} />;
