@@ -10,6 +10,7 @@ import {
   Avatar,
   IconButton,
   Collapse,
+  Tooltip,
 } from "@material-tailwind/react";
 import {
   Square3Stack3DIcon,
@@ -62,47 +63,54 @@ function ProfileMenu() {
 
   return (
     <div className="flex items-center gap-5">
-      <Typography
-        className="font-medium text-blue-gray-500"
-        as="span"
-        variant="small"
-        color="gray"
-        onClick={handleRecipes}
-      >
-        <MenuItem className="flex items-center gap-2 lg:rounded-full">
-          {React.createElement(PlusCircleIcon, {
-            className: "h-[18px] w-[18px]",
-          })}{" "}
-          <span className="text-gray-900">Retsept yaratish</span>
-        </MenuItem>
-      </Typography>
+      <Tooltip content="Retsept yaratish">
+        <Typography
+          className="font-medium text-blue-gray-500"
+          as="span"
+          variant="small"
+          color="gray"
+          onClick={handleRecipes}
+        >
+          <MenuItem className="flex items-center gap-2 lg:rounded-full">
+            {React.createElement(PlusCircleIcon, {
+              className: "h-[18px] w-[18px] flex-shrink-0",
+            })}{" "}
+            <span className="hidden text-gray-900 sm:block">
+              Retsept yaratish
+            </span>
+          </MenuItem>
+        </Typography>
+      </Tooltip>
+
       {user && (
         <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-          <MenuHandler>
-            <Button
-              variant="text"
-              color="blue-gray"
-              className="flex items-center gap-1 rounded-full py-0.5 pl-0.5 pr-2"
-            >
-              <Avatar
-                variant="circular"
-                size="sm"
-                alt={user.displaName}
-                className="border border-gray-900 p-0.5"
-                src={
-                  user?.photoURL
-                    ? user.photoURL
-                    : "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
-                }
-              />
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`h-3 w-3 transition-transform ${
-                  isMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-            </Button>
-          </MenuHandler>
+          <Tooltip content="Sozlamalar">
+            <MenuHandler>
+              <Button
+                variant="text"
+                color="blue-gray"
+                className="flex items-center gap-1 rounded-full py-0.5 pl-0.5 pr-2"
+              >
+                <Avatar
+                  variant="circular"
+                  size="sm"
+                  alt={user.displaName}
+                  className="border border-gray-900 p-0.5"
+                  src={
+                    user?.photoURL
+                      ? user.photoURL
+                      : "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+                  }
+                />
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`h-3 w-3 transition-transform ${
+                    isMenuOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </Button>
+            </MenuHandler>
+          </Tooltip>
           <MenuList className="p-1">
             {profileMenuItems.map(({ label, icon, action }, key) => {
               const isLastItem = key === profileMenuItems.length - 1;
@@ -254,7 +262,7 @@ export default function ComplexNavbar() {
         </IconButton>
         <ProfileMenu />
       </div>
-      <Collapse open={isNavOpen} className="overflow-scroll">
+      <Collapse open={isNavOpen} className="overflow-hidden">
         <NavList />
       </Collapse>
     </Navbar>
