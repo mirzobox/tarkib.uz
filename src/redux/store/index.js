@@ -5,4 +5,11 @@ export const store = configureStore({
   reducer: {
     userSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["user/setUser", "user/setAuthReady"],
+        ignoredPaths: ["userSlice.user"],
+      },
+    }),
 });
