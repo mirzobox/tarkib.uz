@@ -11,6 +11,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <App />
     </Provider>
-    <Toaster position="top-center" richColors />
+    <Toaster position="top-center" richColors expand />
   </>,
 );

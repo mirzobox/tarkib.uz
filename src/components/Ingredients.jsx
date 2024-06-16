@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { Input, Button, Chip } from "@material-tailwind/react";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setGeneralIngredients } from "../redux/slices/extra-recipes-data-slice";
 
 const colors = [
   "blue",
@@ -23,10 +25,17 @@ const colors = [
 ];
 
 export default function Ingredients() {
+  const dispatch = useDispatch();
   const [item, setItem] = React.useState("");
   const [ingredients, setIngredients] = React.useState([]);
-  const onChange = ({ target }) => setItem(target.value.trim());
 
+  useLayoutEffect(() => {
+    dispatch(setGeneralIngredients(ingredients));
+  }, [ingredients]);
+
+  const onChange = ({ target }) => {
+    setItem(target.value.trim());
+  };
   function handleEnter({ key }) {
     key === "Enter" && handleIngredients();
   }
@@ -38,14 +47,17 @@ export default function Ingredients() {
     } else {
       const yes = ingredients.find((el) => el.ingredient === value);
       if (yes?.ingredient !== value) {
-        setIngredients((prev) => [
-          ...prev,
-          {
-            id: crypto.randomUUID(),
-            ingredient: value,
-            color: colors[Math.trunc(Math.random() * colors.length)],
-          },
-        ]);
+        setIngredients((prev) => {
+          const data = [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              ingredient: value,
+              color: colors[Math.trunc(Math.random() * colors.length)],
+            },
+          ];
+          return data;
+        });
         setItem("");
       } else toast.info(`${value} allaqachon qo'shilgan`);
     }
@@ -74,6 +86,7 @@ export default function Ingredients() {
           size="sm"
           color={item.length >= 3 ? "gray" : "blue-gray"}
           onClick={handleIngredients}
+          type="button"
           className="!absolute right-1 top-1 rounded"
         >
           +
