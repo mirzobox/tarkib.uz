@@ -9,12 +9,16 @@ import { getFormData } from "../utils";
 import Categories from "../components/Categories";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { useAddData } from "../hooks/useAddData";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateRecipes() {
   const { images, ingredients, category } = useSelector(
     (state) => state.extraRecipesDataSlice,
   );
-  const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => state.userSlice);
+  const { addNewDoc, isPending } = useAddData();
+  const navigate = useNavigate();
   function handleSubmit(e) {
     let checker = true;
     e.preventDefault();
@@ -23,6 +27,7 @@ export default function CreateRecipes() {
       category,
       ingredients,
       images,
+      user: { photoURL: user?.photoURL, displayName: user?.displayName },
       ...data,
     };
     if (finalData.ingredients.length < 4 && finalData.ingredients.length > 9) {
@@ -37,7 +42,15 @@ export default function CreateRecipes() {
       toast.info("Kategoriyani tanlang");
       checker = false;
     }
-    checker && console.log(finalData);
+    checker &&
+      addNewDoc("recipes", finalData)
+        .then(() => {
+          toast.success("Yangi retsept qo'shildi");
+          navigate("/");
+        })
+        .catch(({ message }) => {
+          toast.error(message);
+        });
   }
   return (
     <section className="relative h-full w-full pb-6 pt-3">
@@ -76,12 +89,12 @@ export default function CreateRecipes() {
             />
             <Button
               className="inline-flex justify-center"
-              disabled={loading}
+              disabled={isPending}
               type="submit"
             >
               <span className="mx-auto flex items-center gap-3">
-                {loading && <Spinner className="h-4 w-4" />}
-                {!loading && <span>Tasdiqlash</span>}
+                {isPending && <Spinner className="h-4 w-4" />}
+                {!isPending && <span>Tasdiqlash</span>}
               </span>
             </Button>
           </div>

@@ -35,11 +35,15 @@ export default function App() {
         },
         {
           path: "/my-recipes",
-          element: user ? <MyRecipes /> : <Navigate to="/login" />,
+          element: <MyRecipes />,
         },
         {
           path: "/create-recipes",
-          element: user ? <CreateRecipes /> : <Navigate to="/login" />,
+          element: user ? <CreateRecipes /> : <Navigate to="/" />,
+        },
+        {
+          path: "/:id",
+          element: <h3>Salom</h3>,
         },
       ],
     },

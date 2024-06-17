@@ -42,8 +42,8 @@ export default function Ingredients() {
 
   function handleIngredients() {
     const value = item.toLowerCase();
-    if (value.length < 3) {
-      toast.info("Masaliq nomi eng kamida 3 ta belgidan iborat bo'lishi kerak");
+    if (value.length < 2) {
+      toast.info("Masaliq nomi eng kamida 2 ta belgidan iborat bo'lishi kerak");
     } else {
       const yes = ingredients.find((el) => el.ingredient === value);
       if (yes?.ingredient !== value) {

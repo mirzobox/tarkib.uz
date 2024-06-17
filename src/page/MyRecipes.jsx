@@ -42,7 +42,7 @@ export default function MyRecipes() {
             <img
               className="mb-5"
               src={NoRecipes}
-              alt="Retseptlar mabjuda emas"
+              alt="Retseptlar mabjud emas"
             />
           </div>
         )}
