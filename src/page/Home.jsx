@@ -42,7 +42,7 @@ export default function Home() {
                 method={method}
                 images={images}
                 title={title}
-                user={user}
+                user={null}
               />
             </li>
           );
