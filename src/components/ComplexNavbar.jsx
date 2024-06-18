@@ -24,6 +24,7 @@ import { auth } from "../firebase/firebase.config";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import Weather from "./Weather";
 
 // profile menu component
 const profileMenuItems = [
@@ -215,10 +216,7 @@ function NavListMenu() {
           <ul className="flex w-full flex-col gap-1">{renderItems}</ul>
         </MenuList>
       </Menu>
-      <MenuItem className="flex items-center gap-2 font-medium text-blue-gray-900 lg:hidden">
-        <Square3Stack3DIcon className="h-[18px] w-[18px] text-blue-gray-500" />{" "}
-        Pages{" "}
-      </MenuItem>
+
       <ul className="flex w-full flex-col gap-1 lg:hidden">{renderItems}</ul>
     </React.Fragment>
   );
@@ -249,10 +247,11 @@ export default function ComplexNavbar() {
         <Typography
           as="a"
           href="#"
-          className="ml-2 mr-4 cursor-pointer py-1.5 font-medium"
+          className="ml-2 mr-4 hidden cursor-pointer py-1.5 font-medium sm:block"
         >
           Tarkib.uz
         </Typography>
+        <Weather />
         <div className="hidden lg:block">
           <NavList />
         </div>
