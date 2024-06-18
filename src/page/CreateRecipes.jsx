@@ -66,7 +66,7 @@ export default function CreateRecipes() {
           <div className="flex flex-col gap-4">
             <Input
               label="Retsept nomini kiriting"
-              name="recipeName"
+              name="title"
               success
               required
             />
