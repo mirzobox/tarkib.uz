@@ -111,7 +111,7 @@ export default function Statistics() {
       <h1 className="mb-5 hidden text-2xl font-bold sm:block">
         Retseptlar statistikasi
       </h1>
-      <span className="mb-5 block italic sm:hidden">
+      <span className="mb-5 block italic text-red-500 sm:hidden">
         ! Statistikani faqat ekran hajmi 640px da yuqori bo'lgan qurilmalarda
         ko'ra olasiz
       </span>
