@@ -7,7 +7,7 @@ import { RecipeElement } from "../components/RecipeElement";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { data: recipes, isLoading } = useData("recipes");
+  const { data: recipes } = useData("recipes");
   const { user } = useSelector((state) => state.userSlice);
 
   function handleRecipes() {
@@ -67,23 +67,4 @@ export default function Home() {
       )}
     </section>
   );
-}
-
-{
-  /* <>
-  <span className="flex items-center justify-center gap-2 pt-16">
-    <Spinner />
-    <span>Yuklanmoqda...</span>
-  </span>
-
-  <div className="flex flex-col-reverse items-center">
-    <div className="flex flex-col items-center">
-      <h3 className="mb-5 font-medium">Retseptlar mavjud emas</h3>
-      <Tooltip content="Retsept yaratish" placement="bottom">
-        <Button onClick={handleRecipes}>Retsept yaratish</Button>
-      </Tooltip>
-    </div>
-    <img className="mb-5" src={NoRecipes} alt="Retseptlar mabjud emas" />
-  </div>
-</>; */
 }

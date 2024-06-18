@@ -16,6 +16,7 @@ import CreateRecipes from "./page/CreateRecipes";
 import MyRecipes from "./page/MyRecipes";
 import Statistics from "./page/Statistics";
 import Details from "./page/Details";
+import Lovely from "./page/Lovely";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,10 @@ export default function App() {
           path: "/:id",
           element: <Details />,
         },
+        {
+          path: "/lovely",
+          element: <Lovely />,
+        },
       ],
     },
     {
@@ -57,7 +62,6 @@ export default function App() {
       element: <Register />,
     },
   ]);
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       dispatch(setUser(user));

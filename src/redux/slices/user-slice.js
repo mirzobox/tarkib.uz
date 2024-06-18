@@ -12,6 +12,7 @@ export const userSlice = createSlice({
   reducers: {
     setUser(state, { payload }) {
       state.user = payload;
+      localStorage.setItem("uid", payload?.uid);
     },
     setPending(state, { payload }) {
       state.isPending = payload;

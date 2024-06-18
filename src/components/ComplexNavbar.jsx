@@ -162,9 +162,14 @@ const navListMenuItems = [
     href: "/statistics",
   },
   {
-    title: "Mening retseptlarim",
-    description: "Siz tanlagan va sizga yoqqan barcha retseptlar",
+    title: "Men yozgan retseptlar",
+    description: "Muallifligingizdagi barcha retseptlar",
     href: "/my-recipes",
+  },
+  {
+    title: "Sevimlilar",
+    description: "Siz sevgan retseptlar",
+    href: "/lovely",
   },
 ];
 

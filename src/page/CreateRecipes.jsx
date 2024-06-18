@@ -27,7 +27,11 @@ export default function CreateRecipes() {
       category,
       ingredients,
       images,
-      user: { photoURL: user?.photoURL, displayName: user?.displayName },
+      user: {
+        photoURL: user?.photoURL,
+        displayName: user?.displayName,
+        uid: user?.uid,
+      },
       ...data,
     };
     if (finalData.ingredients.length < 4 && finalData.ingredients.length > 9) {
