@@ -132,7 +132,11 @@ export default function Details() {
                 );
               })}
             </ul>
-            <div className="flex justify-end">
+            <div className="mb-5 flex items-baseline gap-2">
+              <h3 className="mb-2 text-base font-bold">Turkum:</h3>
+              <strong className="font-normal">{detail.category}</strong>
+            </div>
+            <div className="flex justify-center sm:justify-end">
               <Button onClick={handleAddLovely} color="red">
                 Sevimlilarga qo'shish
               </Button>

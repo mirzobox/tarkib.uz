@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <section className="mx-auto w-full max-w-screen-xl px-5">
       {recipes?.length ? (
-        <h2 className="mb-5 text-2xl font-bold">Retseptlar</h2>
+        <h1 className="mb-5 text-2xl font-bold">Retseptlar</h1>
       ) : (
         ""
       )}
