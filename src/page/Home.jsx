@@ -33,7 +33,7 @@ export default function Home() {
 
       {/* Recipes  */}
       <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        {recipes?.map(({ id, cookingTime, method, images, title }) => {
+        {recipes?.map(({ id, cookingTime, method, images, title, user }) => {
           return (
             <li key={id}>
               <RecipeElement
@@ -42,14 +42,14 @@ export default function Home() {
                 method={method}
                 images={images}
                 title={title}
-                user={null}
+                user={user}
               />
             </li>
           );
         })}
       </ul>
       {!recipes && (
-        <span className="flex items-center justify-center gap-2 pt-16">
+        <span className="flex items-center justify-center gap-2 pt-28">
           <Spinner />
           <span>Yuklanmoqda...</span>
         </span>

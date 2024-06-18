@@ -15,6 +15,7 @@ import { auth } from "./firebase/firebase.config";
 import CreateRecipes from "./page/CreateRecipes";
 import MyRecipes from "./page/MyRecipes";
 import Statistics from "./page/Statistics";
+import Details from "./page/Details";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ export default function App() {
         },
         {
           path: "/:id",
-          element: <h3>Salom</h3>,
+          element: <Details />,
         },
       ],
     },
