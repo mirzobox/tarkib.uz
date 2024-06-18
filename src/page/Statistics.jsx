@@ -85,21 +85,27 @@ export default function Statistics() {
     },
   };
   useEffect(() => {
-    const categ = [];
-    const categData = {};
-    data?.map(({ category }) => {
-      categ.push(category);
-      categData[category]
-        ? (categData[category] += 1)
-        : (categData[category] = 1);
-    });
-    if (categ.length) {
-      const resultCategories = Array.from(new Set(categ));
-      const resultData = Object.values(categData);
-      setCategories(resultCategories);
-      setCategoriesData(resultData);
+    if (data) {
+      setCategories(() => {
+        const categ = [];
+        data.map(({ category }) => {
+          categ.push(category);
+        });
+        const resultCategories = Array.from(new Set(categ));
+        return resultCategories;
+      });
+      setCategoriesData(() => {
+        const categData = {};
+        data.map(({ category }) => {
+          categData[category]
+            ? (categData[category] += 1)
+            : (categData[category] = 1);
+        });
+        const resultData = Object.values(categData);
+        return resultData;
+      });
     }
-  }, []);
+  }, [data]);
   return (
     <section className="mx-auto w-full max-w-screen-xl px-5 py-10">
       <h1 className="mb-5 hidden text-2xl font-bold sm:block">
